@@ -7,7 +7,7 @@ Stopwatch::Stopwatch(QObject *parent)
     , lastLapTime(0)
     , lapCounter(0)
 {
-    connect(timer, &QTimer::timeout, this, [this]() {
+    connect(timer, &QTimer::timeout, this, [this] {
         elapsedTime += 100; // 100 мс = 0.1 сек
         emit timeChanged(elapsedTime);
     });
@@ -32,10 +32,11 @@ void Stopwatch::reset()
     emit timeChanged(0);
 }
 
-void Stopwatch::recordLap()
+LapData Stopwatch::recordLap()
 {
     lapCounter++;
     int currentLapTime = elapsedTime - lastLapTime;
     lastLapTime = elapsedTime;
-    emit lapRecorded(lapCounter, currentLapTime);
+
+    return {lapCounter, currentLapTime}; // возвращаем структуру с данными
 }
