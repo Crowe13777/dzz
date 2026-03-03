@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QString>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Подключение сигналов
     connect(stopwatch, &Stopwatch::timeChanged, this, &MainWindow::updateTimeDisplay);
-    connect(stopwatch, &Stopwatch::lapRecorded, this, &MainWindow::addLapToDisplay);
+    // connect(stopwatch, &Stopwatch::lapRecorded, this, &MainWindow::addLapToDisplay); — УБРАЛИ
 }
 
 MainWindow::~MainWindow()
@@ -50,7 +49,8 @@ void MainWindow::on_clearButton_clicked()
 
 void MainWindow::on_lapButton_clicked()
 {
-    stopwatch->recordLap();
+    LapData lapData = stopwatch->recordLap(); // получаем данные напрямую
+    addLapToDisplay(lapData.lapNumber, lapData.lapTime); // передаём в метод отображения
 }
 
 void MainWindow::updateTimeDisplay(int milliseconds)

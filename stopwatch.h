@@ -4,6 +4,11 @@
 #include <QObject>
 #include <QTimer>
 
+struct LapData {
+    int lapNumber;
+    int lapTime; // в миллисекундах
+};
+
 class Stopwatch : public QObject
 {
     Q_OBJECT
@@ -15,11 +20,10 @@ public slots:
     void start();
     void stop();
     void reset();
-    void recordLap();
+    LapData recordLap(); // теперь возвращает структуру
 
 signals:
     void timeChanged(int milliseconds);
-    void lapRecorded(int lapNumber, int lapTime);
 
 private:
     QTimer *timer;
